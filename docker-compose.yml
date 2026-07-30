@@ -1,0 +1,86 @@
+services:
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: dentist_app-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: dentist_app
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d
+
+    ports:
+      - "5432:5432"
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d dentist_app"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - dentist_app-network
+
+
+
+  app:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+
+    container_name: dentist_app
+    restart: unless-stopped
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/dentist_app
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+
+      CLIENT_URL: http://localhost
+
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    networks:
+      - dentist_app-network
+
+
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+
+    container_name: dentist_app-client
+    restart: unless-stopped
+
+    ports:
+      - "3000:80"
+
+    depends_on:
+      - app
+
+    networks:
+      - dentist_app-network
+
+
+
+volumes:
+  postgres_data:
+
+
+networks:
+  dentist_app-network:
+    driver: bridge
