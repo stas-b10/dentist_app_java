@@ -2,22 +2,16 @@ package com.example.dentistapp.dto;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
+import java.time.LocalTime;
 
 @Data
 public class ScheduleRequest {
 
-
-    private Long clientId;
-
-
     private Long dentistId;
 
+    private String dayOfWeek;
 
-    private LocalDateTime appointmentDate;
+    private LocalTime startTime;
 
-
-    private String status;
-
+    private LocalTime endTime;
 }

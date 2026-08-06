@@ -4,24 +4,19 @@ package com.example.dentistapp.service;
 import com.example.dentistapp.dto.TreatmentRequest;
 import com.example.dentistapp.dto.TreatmentResponse;
 
-import com.example.dentistapp.model.Client;
-import com.example.dentistapp.model.Dentist;
+import com.example.dentistapp.model.Appointment;
 import com.example.dentistapp.model.Treatment;
 
-import com.example.dentistapp.repository.ClientRepository;
-import com.example.dentistapp.repository.DentistRepository;
+import com.example.dentistapp.repository.AppointmentRepository;
 import com.example.dentistapp.repository.TreatmentRepository;
-
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 
 @Service
@@ -31,9 +26,7 @@ public class TreatmentService {
 
     private final TreatmentRepository treatmentRepository;
 
-    private final ClientRepository clientRepository;
-
-    private final DentistRepository dentistRepository;
+    private final AppointmentRepository appointmentRepository;
 
 
 
@@ -42,25 +35,13 @@ public class TreatmentService {
     ){
 
 
-        Client client =
-                clientRepository.findById(
-                        request.getClientId()
+        Appointment appointment =
+                appointmentRepository.findById(
+                        request.getAppointmentId()
                 )
                 .orElseThrow(
                         () -> new RuntimeException(
-                                "Client not found"
-                        )
-                );
-
-
-
-        Dentist dentist =
-                dentistRepository.findById(
-                        request.getDentistId()
-                )
-                .orElseThrow(
-                        () -> new RuntimeException(
-                                "Dentist not found"
+                                "Appointment not found"
                         )
                 );
 
@@ -68,11 +49,16 @@ public class TreatmentService {
 
         Treatment treatment =
                 Treatment.builder()
-                        .client(client)
-                        .dentist(dentist)
-                        .title(request.getTitle())
-                        .description(request.getDescription())
-                        .createdAt(LocalDateTime.now())
+                        .appointment(appointment)
+                        .title(
+                                request.getTitle()
+                        )
+                        .description(
+                                request.getDescription()
+                        )
+                        .createdAt(
+                                LocalDateTime.now()
+                        )
                         .build();
 
 
@@ -84,6 +70,7 @@ public class TreatmentService {
         return map(treatment);
 
     }
+
 
 
 
@@ -102,12 +89,33 @@ public class TreatmentService {
 
 
 
-    public List<TreatmentResponse> getByClient(
-            Long clientId
+    public TreatmentResponse getById(
+            Long id
+    ){
+
+        Treatment treatment =
+                treatmentRepository.findById(id)
+                .orElseThrow(
+                        () -> new RuntimeException(
+                                "Treatment not found"
+                        )
+                );
+
+
+        return map(treatment);
+
+    }
+
+
+
+
+
+    public List<TreatmentResponse> getByAppointment(
+            Long appointmentId
     ){
 
         return treatmentRepository
-                .findByClientId(clientId)
+                .findByAppointmentId(appointmentId)
                 .stream()
                 .map(this::map)
                 .collect(Collectors.toList());
@@ -117,15 +125,12 @@ public class TreatmentService {
 
 
 
-    public List<TreatmentResponse> getByDentist(
-            Long dentistId
+
+    public void delete(
+            Long id
     ){
 
-        return treatmentRepository
-                .findByDentistId(dentistId)
-                .stream()
-                .map(this::map)
-                .collect(Collectors.toList());
+        treatmentRepository.deleteById(id);
 
     }
 
@@ -138,12 +143,11 @@ public class TreatmentService {
     ){
 
         return TreatmentResponse.builder()
-                .id(treatment.getId())
-                .clientId(
-                        treatment.getClient().getId()
+                .id(
+                        treatment.getId()
                 )
-                .dentistId(
-                        treatment.getDentist().getId()
+                .appointmentId(
+                        treatment.getAppointment().getId()
                 )
                 .title(
                         treatment.getTitle()

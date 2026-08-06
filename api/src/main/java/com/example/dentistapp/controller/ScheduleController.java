@@ -21,14 +21,11 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
 
-
     @PostMapping
     public ScheduleResponse create(
             @RequestBody ScheduleRequest request
     ){
-
         return scheduleService.create(request);
-
     }
 
 

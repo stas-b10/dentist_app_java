@@ -5,15 +5,11 @@ import com.example.dentistapp.dto.TreatmentRequest;
 import com.example.dentistapp.dto.TreatmentResponse;
 import com.example.dentistapp.service.TreatmentService;
 
-
 import lombok.RequiredArgsConstructor;
-
 
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
-
 
 
 @RestController
@@ -37,7 +33,6 @@ public class TreatmentController {
 
 
 
-
     @GetMapping
     public List<TreatmentResponse> getAll(){
 
@@ -47,25 +42,34 @@ public class TreatmentController {
 
 
 
-
-    @GetMapping("/client/{id}")
-    public List<TreatmentResponse> getByClient(
+    @GetMapping("/{id}")
+    public TreatmentResponse getById(
             @PathVariable Long id
     ){
 
-        return treatmentService.getByClient(id);
+        return treatmentService.getById(id);
 
     }
 
 
 
-
-    @GetMapping("/dentist/{id}")
-    public List<TreatmentResponse> getByDentist(
+    @GetMapping("/appointment/{id}")
+    public List<TreatmentResponse> getByAppointment(
             @PathVariable Long id
     ){
 
-        return treatmentService.getByDentist(id);
+        return treatmentService.getByAppointment(id);
+
+    }
+
+
+
+    @DeleteMapping("/{id}")
+    public void delete(
+            @PathVariable Long id
+    ){
+
+        treatmentService.delete(id);
 
     }
 
