@@ -1,7 +1,7 @@
 package com.example.dentistapp.controller;
 
 
-import com.example.dentistapp.model.Message;„
+import com.example.dentistapp.model.Message;
 import com.example.dentistapp.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
