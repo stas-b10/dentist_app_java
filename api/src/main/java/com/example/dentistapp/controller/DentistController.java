@@ -17,21 +17,22 @@ public class DentistController {
 
     private final DentistService dentistService;
 
+
     @PostMapping
     public DentistResponse create(
             @RequestBody DentistRequest request
     ) {
 
         return dentistService.create(request);
-
     }
+
 
     @GetMapping
     public List<DentistResponse> getAll() {
 
         return dentistService.getAll();
-
     }
+
 
     @GetMapping("/{id}")
     public DentistResponse getById(
@@ -39,8 +40,39 @@ public class DentistController {
     ) {
 
         return dentistService.getById(id);
-
     }
+
+
+    @GetMapping("/search/name")
+    public List<DentistResponse> searchByName(
+            @RequestParam String name
+    ) {
+
+        return dentistService.searchByName(name);
+    }
+
+
+    @GetMapping("/search/specialization")
+    public List<DentistResponse> searchBySpecialization(
+            @RequestParam String specialization
+    ) {
+
+        return dentistService.searchBySpecialization(
+                specialization
+        );
+    }
+
+
+    @GetMapping("/search/clinic")
+    public List<DentistResponse> searchByClinic(
+            @RequestParam String clinic
+    ) {
+
+        return dentistService.searchByClinic(
+                clinic
+        );
+    }
+
 
     @PutMapping("/{id}")
     public DentistResponse update(
@@ -49,8 +81,8 @@ public class DentistController {
     ) {
 
         return dentistService.update(id, request);
-
     }
+
 
     @DeleteMapping("/{id}")
     public void delete(
@@ -58,7 +90,5 @@ public class DentistController {
     ) {
 
         dentistService.delete(id);
-
     }
-
 }

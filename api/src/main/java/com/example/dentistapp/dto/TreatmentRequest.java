@@ -5,9 +5,11 @@ import lombok.Data;
 @Data
 public class TreatmentRequest {
 
-    private Long appointmentId;
-
-    private String title;
+    private String name;
 
     private String description;
+
+    private Integer durationMinutes;
+
+    private Double price;
 }

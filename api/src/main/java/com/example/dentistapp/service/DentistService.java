@@ -22,10 +22,13 @@ public class DentistService {
 
     private final UserRepository userRepository;
 
+
     public DentistResponse create(DentistRequest request) {
 
         User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() ->
+                        new RuntimeException("User not found")
+                );
 
         Dentist dentist = Dentist.builder()
                 .user(user)
@@ -44,6 +47,7 @@ public class DentistService {
         return map(dentist);
     }
 
+
     public List<DentistResponse> getAll() {
 
         return dentistRepository.findAll()
@@ -52,18 +56,27 @@ public class DentistService {
                 .collect(Collectors.toList());
     }
 
+
     public DentistResponse getById(Long id) {
 
         Dentist dentist = dentistRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Dentist not found"));
+                .orElseThrow(() ->
+                        new RuntimeException("Dentist not found")
+                );
 
         return map(dentist);
     }
 
-    public DentistResponse update(Long id, DentistRequest request) {
+
+    public DentistResponse update(
+            Long id,
+            DentistRequest request
+    ) {
 
         Dentist dentist = dentistRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Dentist not found"));
+                .orElseThrow(() ->
+                        new RuntimeException("Dentist not found")
+                );
 
         dentist.setFirstName(request.getFirstName());
         dentist.setLastName(request.getLastName());
@@ -79,13 +92,56 @@ public class DentistService {
         return map(dentist);
     }
 
+
     public void delete(Long id) {
 
         dentistRepository.deleteById(id);
-
     }
 
-    private DentistResponse map(Dentist dentist) {
+    public List<DentistResponse> searchByName(
+            String name
+    ) {
+
+        return dentistRepository
+                .findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
+                        name,
+                        name
+                )
+                .stream()
+                .map(this::map)
+                .collect(Collectors.toList());
+    }
+
+    public List<DentistResponse> searchBySpecialization(
+            String specialization
+    ) {
+
+        return dentistRepository
+                .findBySpecializationContainingIgnoreCase(
+                        specialization
+                )
+                .stream()
+                .map(this::map)
+                .collect(Collectors.toList());
+    }
+
+    public List<DentistResponse> searchByClinic(
+            String clinic
+    ) {
+
+        return dentistRepository
+                .findByClinicNameContainingIgnoreCase(
+                        clinic
+                )
+                .stream()
+                .map(this::map)
+                .collect(Collectors.toList());
+    }
+
+
+    private DentistResponse map(
+            Dentist dentist
+    ) {
 
         return DentistResponse.builder()
                 .id(dentist.getId())
@@ -99,7 +155,5 @@ public class DentistService {
                 .biography(dentist.getBiography())
                 .profileImage(dentist.getProfileImage())
                 .build();
-
     }
-
 }

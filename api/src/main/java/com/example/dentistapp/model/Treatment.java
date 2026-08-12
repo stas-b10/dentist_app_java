@@ -3,11 +3,10 @@ package com.example.dentistapp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "treatments")
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,14 +16,15 @@ public class Treatment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "appointment_id", nullable = false)
-    private Appointment appointment;
+    @Column(nullable = false, unique = true)
+    private String name;
 
-    private String title;
-
-    @Column(length = 2000)
+    @Column(length = 1000)
     private String description;
 
-    private LocalDateTime createdAt;
+    @Column(nullable = false)
+    private Integer durationMinutes;
+
+    @Column(nullable = false)
+    private Double price;
 }
