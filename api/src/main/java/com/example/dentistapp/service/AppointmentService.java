@@ -3,6 +3,8 @@ package com.example.dentistapp.service;
 
 import com.example.dentistapp.dto.AppointmentRequest;
 import com.example.dentistapp.dto.AppointmentResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.example.dentistapp.model.*;
 
@@ -126,5 +128,98 @@ public class AppointmentService {
                 .build();
 
     }
+
+    public List<AppointmentResponse> getDentistPendingRequests() {
+
+    Dentist dentist = getAuthenticatedDentist();
+
+    return appointmentRepository
+            .findByDentistIdAndStatusOrderByAppointmentDateAscStartTimeAsc(
+                    dentist.getId(),
+                    "PENDING"
+            )
+            .stream()
+            .map(this::map)
+            .collect(Collectors.toList());
+}
+
+
+public AppointmentResponse accept(Long appointmentId) {
+
+    Dentist dentist = getAuthenticatedDentist();
+
+    Appointment appointment =
+            appointmentRepository
+                    .findByIdAndDentistId(
+                            appointmentId,
+                            dentist.getId()
+                    )
+                    .orElseThrow(
+                            () -> new RuntimeException(
+                                    "Appointment not found"
+                            )
+                    );
+
+    if (!"PENDING".equals(appointment.getStatus())) {
+        throw new RuntimeException(
+                "Appointment is not pending"
+        );
+    }
+
+    appointment.setStatus("ACCEPTED");
+
+    appointmentRepository.save(appointment);
+
+    return map(appointment);
+}
+
+
+public AppointmentResponse reject(Long appointmentId) {
+
+    Dentist dentist = getAuthenticatedDentist();
+
+    Appointment appointment =
+            appointmentRepository
+                    .findByIdAndDentistId(
+                            appointmentId,
+                            dentist.getId()
+                    )
+                    .orElseThrow(
+                            () -> new RuntimeException(
+                                    "Appointment not found"
+                            )
+                    );
+
+    if (!"PENDING".equals(appointment.getStatus())) {
+        throw new RuntimeException(
+                "Appointment is not pending"
+        );
+    }
+
+    appointment.setStatus("REJECTED");
+
+    appointmentRepository.save(appointment);
+
+    return map(appointment);
+}
+
+
+private Dentist getAuthenticatedDentist() {
+
+    Authentication authentication =
+            SecurityContextHolder
+                    .getContext()
+                    .getAuthentication();
+
+    String email = authentication.getName();
+
+    return dentistRepository
+            .findByUserEmail(email)
+            .orElseThrow(
+                    () -> new RuntimeException(
+                            "Dentist profile not found"
+                    )
+            );
+}
 
 }

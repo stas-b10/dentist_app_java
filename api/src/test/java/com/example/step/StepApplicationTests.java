@@ -1,4 +1,4 @@
-package com.example.dentistapp;
+package com.example.step;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -3,6 +3,7 @@ package com.example.dentistapp.config;
 import com.example.dentistapp.security.JwtAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,34 +17,39 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
+
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http
     ) throws Exception {
+
         return http
                 .csrf(csrf -> csrf.disable())
+
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS
                         )
                 )
+
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/auth/**"
-                        )
+                        .requestMatchers("/auth/**")
                         .permitAll()
-
-
+                        .requestMatchers("/client/**")
+                        .hasRole("CLIENT")
+                        .requestMatchers("/dentist/**")
+                        .hasRole("DENTIST")
                         .anyRequest()
                         .authenticated()
-
                 )
+
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
                 )
+
                 .build();
     }
-
 }
