@@ -14,5 +14,6 @@ public interface ClientRepository
 
 
     Optional<Client> findByUser(User user);
+    Optional<Client> findByUserEmail(String email);
 
 }

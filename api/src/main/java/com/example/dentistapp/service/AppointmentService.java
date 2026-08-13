@@ -14,9 +14,12 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
-
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.time.DayOfWeek;
 
 
 
@@ -33,57 +36,125 @@ public class AppointmentService {
 
     private final DentistRepository dentistRepository;
 
+    private final TreatmentRepository treatmentRepository;
+
+    private final DentistAvailabilityRepository availabilityRepository;
+
+    private final NotificationService notificationService;
+
 
 
     public AppointmentResponse create(
-            AppointmentRequest request
-    ){
+        AppointmentRequest request
+) {
 
+    Client client =
+            clientRepository.findById(
+                    request.getClientId()
+            )
+            .orElseThrow(
+                    () -> new RuntimeException("Client not found")
+            );
 
-        Client client =
-                clientRepository.findById(
-                        request.getClientId()
-                )
-                .orElseThrow(
-                        () -> new RuntimeException("Client not found")
-                );
+    Dentist dentist =
+            dentistRepository.findById(
+                    request.getDentistId()
+            )
+            .orElseThrow(
+                    () -> new RuntimeException("Dentist not found")
+            );
 
+    Treatment treatment =
+            treatmentRepository.findById(
+                    request.getTreatmentId()
+            )
+            .orElseThrow(
+                    () -> new RuntimeException("Treatment not found")
+            );
 
+    LocalDate appointmentDate =
+            request.getAppointmentDate();
 
-        Dentist dentist =
-                dentistRepository.findById(
-                        request.getDentistId()
-                )
-                .orElseThrow(
-                        () -> new RuntimeException("Dentist not found")
-                );
+    LocalTime startTime =
+            request.getStartTime();
 
+    LocalTime endTime =
+            startTime.plusMinutes(
+                    treatment.getDurationMinutes()
+            );
 
+    DayOfWeek dayOfWeek =
+            appointmentDate.getDayOfWeek();
 
-        Appointment appointment =
-                Appointment.builder()
-                .client(client)
-                .dentist(dentist)
-                .appointmentDate(
-                        request.getAppointmentDate()
-                )
-                .startTime(
-                        request.getStartTime()
-                )
-                .endTime(
-                        request.getEndTime()
-                )
-                .status("PENDING")
-                .build();
+    DentistAvailability availability =
+            availabilityRepository
+                    .findByDentistAndDayOfWeek(
+                            dentist,
+                            dayOfWeek
+                    )
+                    .orElseThrow(
+                            () -> new RuntimeException(
+                                    "Dentist is not working on this day"
+                            )
+                    );
 
+    if (startTime.isBefore(availability.getStartTime())
+            || endTime.isAfter(availability.getEndTime())) {
 
-
-        appointmentRepository.save(appointment);
-
-
-        return map(appointment);
-
+        throw new RuntimeException(
+                "Appointment is outside dentist working hours"
+        );
     }
+
+    List<Appointment> appointments =
+            appointmentRepository
+                    .findByDentistIdAndAppointmentDateOrderByStartTime(
+                            dentist.getId(),
+                            appointmentDate
+                    );
+
+    boolean occupied =
+            appointments.stream()
+                    .anyMatch(appointment ->
+                            !"REJECTED".equals(
+                                    appointment.getStatus()
+                            )
+                            &&
+                            startTime.isBefore(
+                                    appointment.getEndTime()
+                            )
+                            &&
+                            endTime.isAfter(
+                                    appointment.getStartTime()
+                            )
+                    );
+
+    if (occupied) {
+        throw new RuntimeException(
+                "This time slot is already occupied"
+        );
+    }
+
+    Appointment appointment =
+            Appointment.builder()
+                    .client(client)
+                    .dentist(dentist)
+                    .treatment(treatment)
+                    .appointmentDate(appointmentDate)
+                    .startTime(startTime)
+                    .endTime(endTime)
+                    .status("PENDING")
+                    .build();
+
+    appointmentRepository.save(appointment);
+
+    notificationService.create(
+        dentist.getUser(),
+        "You have a new appointment request."
+);
+
+    return map(appointment);
+}
 
 
 
@@ -112,6 +183,9 @@ public class AppointmentService {
                 )
                 .dentistId(
                         appointment.getDentist().getId()
+                )
+                .treatmentId(
+                        appointment.getTreatment().getId()
                 )
                 .appointmentDate(
                         appointment.getAppointmentDate()
@@ -168,9 +242,14 @@ public AppointmentResponse accept(Long appointmentId) {
 
     appointment.setStatus("ACCEPTED");
 
-    appointmentRepository.save(appointment);
+appointmentRepository.save(appointment);
 
-    return map(appointment);
+notificationService.create(
+        appointment.getClient().getUser(),
+        "Your appointment has been accepted."
+);
+
+return map(appointment);
 }
 
 
@@ -198,9 +277,14 @@ public AppointmentResponse reject(Long appointmentId) {
 
     appointment.setStatus("REJECTED");
 
-    appointmentRepository.save(appointment);
+appointmentRepository.save(appointment);
 
-    return map(appointment);
+notificationService.create(
+        appointment.getClient().getUser(),
+        "Your appointment has been rejected."
+);
+
+return map(appointment);
 }
 
 
@@ -220,6 +304,84 @@ private Dentist getAuthenticatedDentist() {
                             "Dentist profile not found"
                     )
             );
+}
+
+public List<LocalTime> getAvailableSlots(
+        Long dentistId,
+        LocalDate date,
+        Long treatmentId
+) {
+
+    Dentist dentist =
+            dentistRepository.findById(dentistId)
+                    .orElseThrow(
+                            () -> new RuntimeException(
+                                    "Dentist not found"
+                            )
+                    );
+
+    Treatment treatment =
+            treatmentRepository.findById(treatmentId)
+                    .orElseThrow(
+                            () -> new RuntimeException(
+                                    "Treatment not found"
+                            )
+                    );
+
+    DayOfWeek dayOfWeek = date.getDayOfWeek();
+
+    DentistAvailability availability =
+            availabilityRepository
+                    .findByDentistAndDayOfWeek(
+                            dentist,
+                            dayOfWeek
+                    )
+                    .orElse(null);
+
+    if (availability == null) {
+        return List.of();
+    }
+
+    List<Appointment> appointments =
+            appointmentRepository
+                    .findByDentistIdAndAppointmentDateOrderByStartTime(
+                            dentistId,
+                            date
+                    );
+
+    List<LocalTime> availableSlots = new ArrayList<>();
+
+    LocalTime current =
+            availability.getStartTime();
+
+    LocalTime workingEnd =
+            availability.getEndTime();
+
+    int duration =
+            treatment.getDurationMinutes();
+
+    while (!current.plusMinutes(duration).isAfter(workingEnd)) {
+
+    LocalTime slotStart = current;
+    LocalTime slotEnd = current.plusMinutes(duration);
+
+    boolean occupied = appointments.stream()
+            .anyMatch(appointment ->
+                    !"REJECTED".equals(appointment.getStatus())
+                    &&
+                    slotStart.isBefore(appointment.getEndTime())
+                    &&
+                    slotEnd.isAfter(appointment.getStartTime())
+            );
+
+    if (!occupied) {
+        availableSlots.add(slotStart);
+    }
+
+    current = current.plusMinutes(30);
+}
+
+    return availableSlots;
 }
 
 }

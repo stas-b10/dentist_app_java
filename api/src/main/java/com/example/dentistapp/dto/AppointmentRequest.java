@@ -12,9 +12,9 @@ public class AppointmentRequest {
 
     private Long dentistId;
 
+    private Long treatmentId;
+
     private LocalDate appointmentDate;
 
     private LocalTime startTime;
-
-    private LocalTime endTime;
 }

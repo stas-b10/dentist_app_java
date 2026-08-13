@@ -16,6 +16,8 @@ public class AppointmentResponse {
 
     private Long dentistId;
 
+    private Long treatmentId;
+
     private LocalDate appointmentDate;
 
     private LocalTime startTime;

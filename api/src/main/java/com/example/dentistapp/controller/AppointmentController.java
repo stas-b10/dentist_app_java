@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -52,4 +54,18 @@ public class AppointmentController {
 
         return appointmentService.reject(appointmentId);
     }
+    
+    @GetMapping("/available")
+    public List<LocalTime> getAvailableSlots(
+        @RequestParam Long dentistId,
+        @RequestParam LocalDate date,
+        @RequestParam Long treatmentId
+    ) {
+
+    return appointmentService.getAvailableSlots(
+            dentistId,
+            date,
+            treatmentId
+    );
+}
 }

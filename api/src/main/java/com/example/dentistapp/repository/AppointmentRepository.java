@@ -1,6 +1,7 @@
 package com.example.dentistapp.repository;
 
 import com.example.dentistapp.model.Appointment;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
@@ -10,8 +11,12 @@ import java.util.Optional;
 public interface AppointmentRepository
         extends JpaRepository<Appointment, Long> {
 
-    Optional<Appointment> findByIdAndDentistId(
-            Long id,
+    List<Appointment> findByDentistIdAndStatusOrderByAppointmentDateAscStartTimeAsc(
+            Long dentistId,
+            String status
+    );
+
+    List<Appointment> findByDentistId(
             Long dentistId
     );
 
@@ -19,28 +24,22 @@ public interface AppointmentRepository
             Long clientId
     );
 
-    List<Appointment> findByDentistIdOrderByAppointmentDateDescStartTimeDesc(
+    Optional<Appointment> findByIdAndDentistId(
+            Long appointmentId,
             Long dentistId
     );
 
     List<Appointment> findByDentistIdAndAppointmentDateOrderByStartTime(
             Long dentistId,
-            LocalDate appointmentDate
+            LocalDate date
     );
 
-    List<Appointment> findByDentistIdAndStatusOrderByAppointmentDateAscStartTimeAsc(
-            Long dentistId,
-            String status
+    long countByDentistId(
+            Long dentistId
     );
 
     long countByDentistIdAndStatus(
             Long dentistId,
             String status
     );
-
-    long countByClientIdAndStatus(
-            Long clientId,
-            String status
-    );
-    
 }
