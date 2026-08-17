@@ -59,6 +59,8 @@ public class ChatService {
                         .build();
 
         messageRepository.save(message);
+        conversation.setUpdatedAt(LocalDateTime.now());
+        conversationRepository.save(conversation);
 
         return map(message);
     }

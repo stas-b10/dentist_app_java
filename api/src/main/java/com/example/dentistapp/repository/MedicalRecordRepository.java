@@ -7,13 +7,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface MedicalRecordRepository
-        extends JpaRepository<MedicalRecord, Long> {
+        extends JpaRepository<
+                MedicalRecord,
+                Long
+        > {
 
-    List<MedicalRecord> findByClientIdOrderByCreatedAtDesc(
+    List<MedicalRecord>
+    findByClientIdOrderByCreatedAtDesc(
             Long clientId
     );
 
-    List<MedicalRecord> findByDentistIdOrderByCreatedAtDesc(
+
+    List<MedicalRecord>
+    findByDentistIdOrderByCreatedAtDesc(
             Long dentistId
     );
 }

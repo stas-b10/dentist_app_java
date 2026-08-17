@@ -2,9 +2,11 @@ package com.example.dentistapp.service;
 
 import com.example.dentistapp.dto.ReviewRequest;
 import com.example.dentistapp.dto.ReviewResponse;
+
 import com.example.dentistapp.model.Appointment;
 import com.example.dentistapp.model.Client;
 import com.example.dentistapp.model.Review;
+
 import com.example.dentistapp.repository.AppointmentRepository;
 import com.example.dentistapp.repository.ClientRepository;
 import com.example.dentistapp.repository.ReviewRepository;
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,6 +33,7 @@ public class ReviewService {
     private final ClientRepository clientRepository;
 
 
+    @Transactional
     public ReviewResponse create(
             ReviewRequest request
     ) {
@@ -39,30 +43,56 @@ public class ReviewService {
                         .getContext()
                         .getAuthentication();
 
-        String email = authentication.getName();
+
+        if (authentication == null
+                || !authentication.isAuthenticated()) {
+
+            throw new RuntimeException(
+                    "User is not authenticated"
+            );
+        }
+
+
+        String email =
+                authentication.getName();
 
 
         Client client =
                 clientRepository
                         .findByUserEmail(email)
-                        .orElseThrow(
-                                () -> new RuntimeException(
+                        .orElseThrow(() ->
+                                new RuntimeException(
                                         "Client profile not found"
                                 )
                         );
 
 
+        if (request.getAppointmentId() == null) {
+
+            throw new RuntimeException(
+                    "Appointment ID is required"
+            );
+        }
+
+
         Appointment appointment =
                 appointmentRepository
-                        .findById(request.getAppointmentId())
-                        .orElseThrow(
-                                () -> new RuntimeException(
+                        .findById(
+                                request.getAppointmentId()
+                        )
+                        .orElseThrow(() ->
+                                new RuntimeException(
                                         "Appointment not found"
                                 )
                         );
 
 
-        if (!appointment.getClient()
+        /*
+         * Make sure this appointment belongs
+         * to the authenticated client.
+         */
+        if (!appointment
+                .getClient()
                 .getId()
                 .equals(client.getId())) {
 
@@ -72,12 +102,17 @@ public class ReviewService {
         }
 
 
-        if (!"ACCEPTED".equals(
+        /*
+         * Reviews are only possible after
+         * the dentist marks the appointment
+         * as completed.
+         */
+        if (!"COMPLETED".equals(
                 appointment.getStatus()
         )) {
 
             throw new RuntimeException(
-                    "Only accepted appointments can be reviewed"
+                    "Only completed appointments can be reviewed"
             );
         }
 
@@ -143,14 +178,25 @@ public class ReviewService {
                         .getContext()
                         .getAuthentication();
 
-        String email = authentication.getName();
+
+        if (authentication == null
+                || !authentication.isAuthenticated()) {
+
+            throw new RuntimeException(
+                    "User is not authenticated"
+            );
+        }
+
+
+        String email =
+                authentication.getName();
 
 
         Client client =
                 clientRepository
                         .findByUserEmail(email)
-                        .orElseThrow(
-                                () -> new RuntimeException(
+                        .orElseThrow(() ->
+                                new RuntimeException(
                                         "Client profile not found"
                                 )
                         );
@@ -182,9 +228,7 @@ public class ReviewService {
 
         double total =
                 reviews.stream()
-                        .mapToInt(
-                                Review::getRating
-                        )
+                        .mapToInt(Review::getRating)
                         .sum();
 
 

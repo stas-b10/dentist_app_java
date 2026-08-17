@@ -2,8 +2,15 @@ package com.example.dentistapp.service;
 
 import com.example.dentistapp.dto.MedicalRecordRequest;
 import com.example.dentistapp.dto.MedicalRecordResponse;
-import com.example.dentistapp.model.*;
-import com.example.dentistapp.repository.*;
+import com.example.dentistapp.model.Appointment;
+import com.example.dentistapp.model.Client;
+import com.example.dentistapp.model.Dentist;
+import com.example.dentistapp.model.MedicalRecord;
+
+import com.example.dentistapp.repository.AppointmentRepository;
+import com.example.dentistapp.repository.ClientRepository;
+import com.example.dentistapp.repository.DentistRepository;
+import com.example.dentistapp.repository.MedicalRecordRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,41 +32,51 @@ public class MedicalRecordService {
     private final AppointmentRepository appointmentRepository;
 
 
+    // =========================================================
+    // CREATE
+    // =========================================================
+
     public MedicalRecordResponse create(
             MedicalRecordRequest request
     ) {
 
         Client client =
-                clientRepository.findById(
-                        request.getClientId()
-                ).orElseThrow(
-                        () -> new RuntimeException(
-                                "Client not found"
-                        )
-                );
+                clientRepository
+                        .findById(request.getClientId())
+                        .orElseThrow(
+                                () -> new RuntimeException(
+                                        "Client not found"
+                                )
+                        );
+
 
         Dentist dentist =
-                dentistRepository.findById(
-                        request.getDentistId()
-                ).orElseThrow(
-                        () -> new RuntimeException(
-                                "Dentist not found"
-                        )
-                );
+                dentistRepository
+                        .findById(request.getDentistId())
+                        .orElseThrow(
+                                () -> new RuntimeException(
+                                        "Dentist not found"
+                                )
+                        );
+
 
         Appointment appointment = null;
+
 
         if (request.getAppointmentId() != null) {
 
             appointment =
-                    appointmentRepository.findById(
-                            request.getAppointmentId()
-                    ).orElseThrow(
-                            () -> new RuntimeException(
-                                    "Appointment not found"
+                    appointmentRepository
+                            .findById(
+                                    request.getAppointmentId()
                             )
-                    );
+                            .orElseThrow(
+                                    () -> new RuntimeException(
+                                            "Appointment not found"
+                                    )
+                            );
         }
+
 
         MedicalRecord record =
                 MedicalRecord.builder()
@@ -74,11 +91,18 @@ public class MedicalRecordService {
                         .createdAt(LocalDateTime.now())
                         .build();
 
-        medicalRecordRepository.save(record);
 
-        return map(record);
+        MedicalRecord saved =
+                medicalRecordRepository.save(record);
+
+
+        return map(saved);
     }
 
+
+    // =========================================================
+    // CLIENT RECORDS
+    // =========================================================
 
     public List<MedicalRecordResponse> getClientRecords(
             Long clientId
@@ -92,6 +116,10 @@ public class MedicalRecordService {
     }
 
 
+    // =========================================================
+    // DENTIST RECORDS
+    // =========================================================
+
     public List<MedicalRecordResponse> getDentistRecords(
             Long dentistId
     ) {
@@ -104,51 +132,70 @@ public class MedicalRecordService {
     }
 
 
+    // =========================================================
+    // GET ONE
+    // =========================================================
+
     public MedicalRecordResponse getById(
             Long id
     ) {
 
         MedicalRecord record =
-                medicalRecordRepository.findById(id)
+                medicalRecordRepository
+                        .findById(id)
                         .orElseThrow(
                                 () -> new RuntimeException(
                                         "Medical record not found"
                                 )
                         );
 
+
         return map(record);
     }
 
+
+    // =========================================================
+    // MAP
+    // =========================================================
 
     private MedicalRecordResponse map(
             MedicalRecord record
     ) {
 
         return MedicalRecordResponse.builder()
+
                 .id(record.getId())
+
                 .clientId(
                         record.getClient().getId()
                 )
+
                 .dentistId(
                         record.getDentist().getId()
                 )
+
                 .appointmentId(
                         record.getAppointment() != null
                                 ? record.getAppointment().getId()
                                 : null
                 )
+
                 .diagnosis(
                         record.getDiagnosis()
                 )
+
                 .notes(
                         record.getNotes()
                 )
+
                 .treatmentPerformed(
                         record.getTreatmentPerformed()
                 )
+
                 .createdAt(
                         record.getCreatedAt()
                 )
+
                 .build();
     }
 }

@@ -1,40 +1,38 @@
 package com.example.dentistapp.security;
 
-
 import com.example.dentistapp.model.User;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import javax.crypto.SecretKey;
-import java.util.Date;
 
+import javax.crypto.SecretKey;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 @Service
 public class JwtService {
 
-
-
     @Value("${jwt.secret}")
     private String secret;
-
 
     @Value("${jwt.expiration}")
     private long expiration;
 
 
-
-    private SecretKey getSigningKey(){
+    private SecretKey getSigningKey() {
 
         return Keys.hmacShaKeyFor(
-                secret.getBytes()
+                secret.getBytes(StandardCharsets.UTF_8)
         );
-
     }
 
-    public String generateToken(User user){
 
+    public String generateToken(User user) {
 
         return Jwts.builder()
 
@@ -49,62 +47,61 @@ public class JwtService {
 
                 .expiration(
                         new Date(
-                          System.currentTimeMillis()
-                          + expiration
+                                System.currentTimeMillis()
+                                        + expiration
                         )
                 )
 
                 .signWith(getSigningKey())
 
                 .compact();
-
     }
 
-    public String extractUsername(String token){
 
+    public String extractUsername(String token) {
 
         return extractClaims(token)
                 .getSubject();
-
     }
 
-    public String extractRole(String token){
 
+    public String extractRole(String token) {
 
         return extractClaims(token)
                 .get("role", String.class);
-
     }
+
 
     public boolean isTokenValid(
             String token,
             String username
-    ){
+    ) {
 
-        return username.equals(
-                extractUsername(token)
-        )
-        &&
-        !extractClaims(token)
-                .getExpiration()
-                .before(new Date());
+        Claims claims =
+                extractClaims(token);
 
+        String tokenUsername =
+                claims.getSubject();
+
+        Date expirationDate =
+                claims.getExpiration();
+
+        return username.equals(tokenUsername)
+                && expirationDate != null
+                && expirationDate.after(
+                        new Date()
+                );
     }
 
-    private Claims extractClaims(String token){
 
+    private Claims extractClaims(
+            String token
+    ) {
 
         return Jwts.parser()
-
                 .verifyWith(getSigningKey())
-
                 .build()
-
                 .parseSignedClaims(token)
-
                 .getPayload();
-
     }
-
-
 }

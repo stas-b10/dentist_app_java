@@ -1,0 +1,3811 @@
+:root {
+  --bg: #f5f7f5;
+  --surface: #ffffff;
+  --surface-sunken: #eef2ef;
+
+  --ink: #12211d;
+  --ink-soft: #4b5d57;
+  --ink-faint: #8a978f;
+
+  --primary: #1b6e63;
+  --primary-dark: #0f4a42;
+  --primary-tint: #e4efec;
+
+  --accent: #e4b94e;
+  --accent-tint: #fbf1d9;
+
+  --danger: #b8433b;
+  --danger-tint: #f7e6e4;
+
+  --success: #2f8f5b;
+  --success-tint: #e5f2ea;
+
+  --pending: #c98a2c;
+  --pending-tint: #fbeed9;
+
+  --border: #dde6e1;
+
+  --radius: 14px;
+
+  --shadow:
+    0 1px 2px rgba(18, 33, 29, 0.04),
+    0 8px 24px rgba(18, 33, 29, 0.06);
+
+  --font-display: 'Newsreader', Georgia, serif;
+  --font-body:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+
+  --font-mono:
+    'IBM Plex Mono',
+    monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* =========================
+   COMMON
+========================= */
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.muted {
+  color: var(--ink-soft);
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+.section-spaced {
+  margin-top: 32px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 10px 18px;
+
+  border-radius: 999px;
+  border: 1px solid transparent;
+
+  font-weight: 600;
+  font-size: 14px;
+
+  transition:
+    transform 0.12s ease,
+    background 0.12s ease,
+    border-color 0.12s ease;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--ink);
+}
+
+.btn-ghost:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-danger {
+  background: transparent;
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.btn-danger:hover {
+  background: var(--danger-tint);
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 13px;
+}
+
+/* =========================
+   AUTH
+========================= */
+
+.auth-screen {
+  min-height: 100vh;
+
+  display: grid;
+  place-items: center;
+
+  padding: 24px;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      var(--primary-tint),
+      transparent 45%
+    ),
+    var(--bg);
+}
+
+.auth-panel {
+  width: 100%;
+  max-width: 420px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+  border-radius: 22px;
+
+  box-shadow: var(--shadow);
+
+  padding: 38px 34px;
+}
+
+.auth-logo {
+  margin-bottom: 24px;
+}
+
+.auth-logo-mark,
+.brand-icon {
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 12px;
+
+  background: var(--primary);
+  color: white;
+
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.auth-panel h1 {
+  font-size: 30px;
+  line-height: 1.2;
+  margin-bottom: 7px;
+}
+
+.auth-sub {
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 26px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  color: var(--ink-soft);
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.auth-form input {
+  width: 100%;
+
+  padding: 11px 13px;
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  background: var(--surface-sunken);
+  color: var(--ink);
+
+  outline: none;
+
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.auth-form input:focus {
+  border-color: var(--primary);
+  background: var(--surface);
+}
+
+.auth-form .btn {
+  margin-top: 4px;
+}
+
+.form-error {
+  padding: 10px 12px;
+
+  border-radius: 9px;
+
+  background: var(--danger-tint);
+  color: var(--danger);
+
+  font-size: 13px;
+}
+
+/* =========================
+   APP SHELL
+========================= */
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  background: var(--bg);
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+  min-height: 100vh;
+
+  background: var(--primary-dark);
+  color: #eef4f1;
+
+  padding: 24px 18px;
+
+  display: flex;
+  flex-direction: column;
+
+  position: sticky;
+  top: 0;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 34px;
+  padding: 0 6px;
+}
+
+.sidebar-brand span {
+  font-family: var(--font-display);
+  font-size: 20px;
+}
+
+.sidebar .brand-icon {
+  width: 36px;
+  height: 36px;
+
+  background: var(--accent);
+  color: var(--primary-dark);
+
+  border-radius: 10px;
+
+  font-size: 21px;
+}
+
+.nav-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.nav-group-label {
+  font-family: var(--font-mono);
+
+  font-size: 10px;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+
+  color: #8fb3ab;
+
+  padding: 0 12px;
+
+  margin-bottom: 7px;
+}
+
+.nav-item {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  padding: 11px 12px;
+
+  border-radius: 10px;
+
+  color: #d7e8e3;
+
+  background: transparent;
+  border: none;
+
+  text-align: left;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-item.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+
+  padding-top: 16px;
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.12);
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main-area {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  min-height: 82px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 18px 32px;
+
+  border-bottom: 1px solid var(--border);
+
+  background: var(--surface);
+}
+
+.topbar h2 {
+  font-size: 25px;
+}
+
+.topbar-sub {
+  color: var(--ink-soft);
+
+  font-size: 13px;
+
+  margin-top: 3px;
+}
+
+.content {
+  padding: 30px 32px 60px;
+
+  flex: 1;
+
+  max-width: 1500px;
+  width: 100%;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  box-shadow: var(--shadow);
+
+  padding: 20px;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+}
+
+.grid-2 {
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(280px, 1fr)
+    );
+}
+
+.grid-3 {
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(190px, 1fr)
+    );
+}
+
+.stat-card {
+  min-height: 125px;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+
+  gap: 5px;
+}
+
+.stat-number {
+  font-family: var(--font-display);
+
+  font-size: 34px;
+}
+
+.stat-label {
+  color: var(--ink-soft);
+
+  font-size: 13px;
+}
+
+/* =========================
+   LISTS
+========================= */
+
+.list-row {
+  display: grid;
+  grid-template-columns:
+    minmax(170px, 1.2fr)
+    minmax(220px, 1.5fr)
+    minmax(160px, 1fr)
+    auto;
+
+  align-items: center;
+  gap: 24px;
+
+  min-height: 72px;
+  padding: 16px 4px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.list-row:last-child {
+  border-bottom: none;
+}
+
+.list-row > div {
+  min-width: 0;
+}
+
+.list-row:last-child {
+  border-bottom: none;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: var(--primary-tint);
+  color: var(--primary-dark);
+
+  display: grid;
+  place-items: center;
+
+  font-weight: 600;
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 4px 10px;
+
+  border-radius: 999px;
+
+  font-family: var(--font-mono);
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badge-PENDING {
+  background: var(--pending-tint);
+  color: var(--pending);
+}
+
+.badge-ACCEPTED {
+  background: var(--primary-tint);
+  color: var(--primary-dark);
+}
+
+.badge-COMPLETED {
+  background: var(--success-tint);
+  color: var(--success);
+}
+
+.badge-REJECTED {
+  background: var(--danger-tint);
+  color: var(--danger);
+}
+
+/* =========================
+   EMPTY / ERROR
+========================= */
+
+.empty-state {
+  text-align: center;
+
+  padding: 45px 20px;
+
+  color: var(--ink-soft);
+}
+
+.empty-state h4 {
+  font-family: var(--font-body);
+
+  font-size: 15px;
+
+  color: var(--ink);
+
+  margin-bottom: 5px;
+}
+
+.loading-card {
+  text-align: center;
+
+  color: var(--ink-soft);
+}
+
+.error-card {
+  color: var(--danger);
+
+  background: var(--danger-tint);
+
+  border-color: #ebc5c1;
+}
+
+/* =========================
+   DENTIST CARDS
+========================= */
+
+.dentist-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 9px;
+
+  height: 100%;
+}
+
+/* Avatar gets its own fixed row */
+.dentist-card .avatar {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+}
+
+/* Every name gets exactly the same height */
+.dentist-card h3 {
+  height: 53px;
+  min-height: 53px;
+
+  margin: 0;
+
+  font-size: 21px;
+  line-height: 1.25;
+
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Specialization */
+.dentist-card > .muted {
+  min-height: 20px;
+  margin: 0;
+}
+
+/* Biography */
+.dentist-bio {
+  color: var(--ink-soft);
+
+  font-size: 13px;
+  line-height: 1.6;
+
+  margin: 0;
+
+  min-height: 42px;
+}
+
+/* Experience always stays at bottom */
+.dentist-meta {
+  margin-top: auto;
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+
+  color: var(--primary);
+}
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile-card {
+  max-width: 800px;
+}
+
+.profile-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(180px, 1fr)
+    );
+
+  gap: 18px;
+
+  margin-top: 25px;
+}
+
+.profile-grid div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.profile-grid span {
+  color: var(--ink-faint);
+
+  font-size: 12px;
+}
+
+.profile-grid strong {
+  font-size: 14px;
+}
+
+.profile-bio {
+  color: var(--ink-soft);
+
+  line-height: 1.7;
+
+  margin-top: 24px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 900px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .topbar {
+    padding: 17px 20px;
+  }
+
+  .content {
+    padding: 22px 20px 45px;
+  }
+
+  .list-row {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .row-actions {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .auth-panel {
+    padding: 28px 22px;
+  }
+
+  .content {
+    padding: 18px 14px 35px;
+  }
+
+  .topbar h2 {
+    font-size: 21px;
+  }
+}
+
+.messages-layout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 20px;
+  min-height: 600px;
+}
+
+.conversations-panel {
+  min-height: 600px;
+  overflow-y: auto;
+}
+
+.conversation-patients {
+  margin-top: 10px;
+}
+
+.conversation-list {
+  margin-top: 25px;
+}
+
+.conversation-patient,
+.conversation-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 5px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.conversation-patient:hover,
+.conversation-item:hover {
+  background: #f3f4f6;
+}
+
+.conversation-item.active {
+  background: #eef2ff;
+}
+
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 600px;
+  overflow: hidden;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.chat-messages {
+  flex: 1;
+  min-height: 400px;
+  overflow-y: auto;
+  padding: 20px 5px;
+}
+
+.chat-message {
+  margin-bottom: 16px;
+}
+
+.chat-message {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.chat-message-mine {
+  justify-content: flex-end;
+}
+
+.chat-message-theirs {
+  justify-content: flex-start;
+}
+
+.chat-message-content {
+  display: inline-block;
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: var(--surface-sunken);
+  color: var(--ink);
+  word-break: break-word;
+}
+
+.chat-message-mine .chat-message-content {
+  background: var(--primary);
+  color: #fff;
+}
+
+.chat-message-time {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+
+.chat-message-mine .chat-message-time {
+  text-align: right;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.chat-message-time {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #888;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.chat-input input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+}
+
+.chat-input input:focus {
+  border-color: #6366f1;
+}
+
+@media (max-width: 900px) {
+
+  .messages-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .conversations-panel {
+    min-height: auto;
+  }
+
+  .chat-panel {
+    min-height: 500px;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .chat-input {
+    flex-direction: column;
+  }
+
+  .chat-input button {
+    width: 100%;
+  }
+
+}
+
+/* =====================================================
+   SIDEBAR
+   ===================================================== */
+
+.sidebar {
+  width: 264px;
+  min-width: 264px;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  padding: 26px 16px 20px;
+
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1px)
+      0 0 / 16px 16px,
+    var(--primary-dark);
+  color: #eef4f1;
+
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 10px 6px;
+}
+
+.brand-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--primary-dark);
+
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.brand-text strong {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.brand-text span {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8fb3ab;
+}
+
+.sidebar-arc {
+  display: block;
+  margin: 0 10px 22px;
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+.sidebar-divider {
+  height: 1px;
+  margin: 0 8px 20px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-menu-label {
+  padding: 0 11px;
+  margin-bottom: 9px;
+
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6f9089;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-nav-item {
+  position: relative;
+  width: 100%;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 0 12px;
+
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: #b7cbc5;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.sidebar-nav-item:hover {
+  color: #f4faf8;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-nav-item:active {
+  transform: scale(0.985);
+}
+
+.sidebar-nav-item-active {
+  color: #fff;
+  background: rgba(228, 185, 78, 0.14);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.sidebar-nav-icon {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+  color: #7fa39a;
+
+  transition: color 0.15s ease;
+}
+
+.sidebar-nav-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sidebar-nav-item:hover .sidebar-nav-icon {
+  color: #d7ece5;
+}
+
+.sidebar-nav-item-active .sidebar-nav-icon {
+  color: var(--accent);
+}
+
+.sidebar-nav-text {
+  flex: 1;
+}
+
+.sidebar-nav-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 8px;
+  padding: 11px;
+
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.sidebar-user-avatar {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+  background: var(--primary);
+  color: var(--accent-tint);
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.sidebar-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.sidebar-user-info strong {
+  color: #eef4f1;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.sidebar-user-info span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #7fa39a;
+  font-size: 9px;
+}
+
+.sidebar-user-info i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--success);
+}
+
+.sidebar-logout {
+  width: 100%;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 0 11px;
+
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #7fa39a;
+
+  font-family: inherit;
+  font-size: 11px;
+
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sidebar-logout svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sidebar-logout:hover {
+  color: var(--danger);
+  background: rgba(184, 67, 59, 0.08);
+}
+
+/* =====================================================
+   TOPBAR
+   ===================================================== */
+
+.topbar {
+  min-height: 78px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 30px;
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.topbar-title-area {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.topbar-title-accent {
+  width: 4px;
+  height: 34px;
+  border-radius: 20px;
+  background: linear-gradient(to bottom, var(--accent), var(--primary));
+}
+
+.topbar-eyebrow {
+  display: block;
+  margin-bottom: 2px;
+
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.topbar h2 {
+  color: var(--ink);
+  font-size: 21px;
+}
+
+.topbar p {
+  margin: 3px 0 0;
+  color: var(--ink-soft);
+  font-size: 11px;
+}
+
+.topbar-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 7px 10px;
+
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--surface);
+}
+
+.topbar-status-icon {
+  width: 29px;
+  height: 29px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+  background: var(--primary-tint);
+  color: var(--primary-dark);
+}
+
+.topbar-status-icon svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.topbar-status-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.topbar-status-text strong {
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+.topbar-status-text span {
+  color: var(--ink-faint);
+  font-size: 8px;
+}
+
+.topbar-status-dot {
+  width: 6px;
+  height: 6px;
+  margin-left: 3px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 3px var(--success-tint);
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 800px) {
+  .sidebar {
+    width: 74px;
+    min-width: 74px;
+    padding: 20px 9px;
+  }
+
+  .brand-text,
+  .sidebar-arc,
+  .sidebar-menu-label,
+  .sidebar-nav-text,
+  .sidebar-nav-dot,
+  .sidebar-bottom {
+    display: none;
+  }
+
+  .sidebar-brand {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .sidebar-divider {
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+
+  .sidebar-nav-item {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .sidebar-nav-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .topbar {
+    padding: 0 18px;
+  }
+
+  .topbar-status {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .topbar {
+    min-height: 68px;
+  }
+
+  .topbar h2 {
+    font-size: 18px;
+  }
+
+  .topbar p {
+    display: none;
+  }
+
+  .topbar-title-accent {
+    height: 30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+
+
+/* =========================
+   SECTION HEADER
+========================= */
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.section-header h3 {
+  font-size: 20px;
+}
+
+/* =========================
+   STAT CARD ICON
+========================= */
+
+.stat-card {
+  position: relative;
+}
+
+.stat-icon {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+  background: var(--primary-tint);
+  color: var(--primary-dark);
+}
+
+.stat-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sidebar-nav-active-dot {
+  width: 5px;
+  height: 5px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #bfdbfe;
+
+  box-shadow:
+    0 0 0 4px rgba(
+      191,
+      219,
+      254,
+      0.08
+    );
+}
+
+/* =====================================================
+   TOPBAR ACTIONS
+   ===================================================== */
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+/* Notifications */
+
+.topbar-notifications {
+  position: relative;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid #e8edf3;
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  color: #64748b;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.topbar-notifications:hover {
+  color: #2563eb;
+
+  border-color: #dbeafe;
+
+  background: #f8fbff;
+
+  box-shadow:
+    0 5px 16px rgba(37, 99, 235, 0.08);
+
+  transform: translateY(-1px);
+}
+
+.topbar-notifications:active {
+  transform: scale(0.96);
+}
+
+.topbar-notifications svg {
+  width: 18px;
+  height: 18px;
+
+  fill: none;
+
+  stroke: currentColor;
+
+  stroke-width: 1.7;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/* Notification indicator */
+
+.notification-dot {
+  position: absolute;
+
+  top: 8px;
+  right: 8px;
+
+  width: 6px;
+  height: 6px;
+
+  border: 2px solid #fff;
+
+  border-radius: 50%;
+
+  background: #ef4444;
+
+  box-sizing: content-box;
+}
+
+
+/* =====================================================
+   TOPBAR RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 800px) {
+  .topbar-actions {
+    gap: 7px;
+  }
+
+  .topbar-notifications {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* =====================================================
+   FIND A DENTIST
+===================================================== */
+
+.dentists-page {
+  width: 100%;
+}
+
+/* =========================
+   INTRO
+========================= */
+
+.dentists-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+
+  margin-bottom: 24px;
+}
+
+.dentists-intro h3 {
+  font-size: 28px;
+  line-height: 1.15;
+}
+
+.dentists-intro-text {
+  max-width: 520px;
+
+  margin-top: 7px;
+
+  color: var(--ink-soft);
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.dentists-count {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+
+  padding: 10px 14px;
+
+  border: 1px solid var(--border);
+  border-radius: 11px;
+
+  background: var(--surface);
+}
+
+.dentists-count strong {
+  font-family: var(--font-display);
+
+  font-size: 22px;
+
+  color: var(--primary-dark);
+}
+
+.dentists-count span {
+  color: var(--ink-soft);
+  font-size: 12px;
+}
+
+/* =========================
+   FILTERS
+========================= */
+
+.dentist-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 22px;
+}
+
+.dentist-search {
+  position: relative;
+
+  flex: 1;
+  min-width: 0;
+}
+
+.dentist-search svg {
+  position: absolute;
+
+  left: 14px;
+  top: 50%;
+
+  width: 17px;
+  height: 17px;
+
+  transform: translateY(-50%);
+
+  fill: none;
+  stroke: var(--ink-faint);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  pointer-events: none;
+}
+
+.dentist-search input {
+  width: 100%;
+  height: 44px;
+
+  padding: 0 14px 0 42px;
+
+  border: 1px solid var(--border);
+  border-radius: 11px;
+
+  background: var(--surface);
+
+  color: var(--ink);
+
+  outline: none;
+
+  font-size: 13px;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.dentist-search input::placeholder {
+  color: var(--ink-faint);
+}
+
+.dentist-search input:focus {
+  border-color: var(--primary);
+
+  box-shadow:
+    0 0 0 3px var(--primary-tint);
+}
+
+.dentist-specialty-filter {
+  width: 190px;
+  height: 44px;
+
+  padding: 0 12px;
+
+  border: 1px solid var(--border);
+  border-radius: 11px;
+
+  background: var(--surface);
+  color: var(--ink);
+
+  outline: none;
+
+  font-size: 13px;
+
+  cursor: pointer;
+}
+
+.dentist-specialty-filter:focus {
+  border-color: var(--primary);
+}
+
+/* =========================
+   GRID
+========================= */
+
+.dentist-grid {
+  align-items: stretch;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.dentist-card {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 300px;
+
+  padding: 22px;
+
+  gap: 0;
+
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    border-color 0.16s ease;
+}
+
+.dentist-card:hover {
+  transform: translateY(-2px);
+
+  border-color: #cbdad4;
+
+  box-shadow:
+    0 2px 4px rgba(18, 33, 29, 0.04),
+    0 12px 30px rgba(18, 33, 29, 0.08);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.dentist-card-header {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  margin-bottom: 18px;
+}
+
+.dentist-avatar {
+  width: 52px;
+  height: 52px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--primary-tint),
+      #d5e8e2
+    );
+
+  color: var(--primary-dark);
+
+  font-family: var(--font-display);
+
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.dentist-identity {
+  min-width: 0;
+}
+
+.dentist-identity h3 {
+  font-size: 20px;
+  line-height: 1.2;
+
+  color: var(--ink);
+}
+
+.dentist-identity p {
+  margin-top: 4px;
+
+  color: var(--primary);
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* =========================
+   CLINIC
+========================= */
+
+.dentist-clinic {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  margin-bottom: 15px;
+
+  color: var(--ink-soft);
+
+  font-size: 12px;
+}
+
+.dentist-clinic-icon {
+  width: 28px;
+  height: 28px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 8px;
+
+  background: var(--surface-sunken);
+
+  color: var(--primary);
+}
+
+.dentist-clinic-icon svg {
+  width: 15px;
+  height: 15px;
+
+  fill: none;
+
+  stroke: currentColor;
+
+  stroke-width: 1.6;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* =========================
+   EXPERIENCE
+========================= */
+
+.dentist-experience {
+  display: flex;
+  align-items: baseline;
+
+  gap: 6px;
+
+  padding: 12px 13px;
+
+  margin-bottom: 15px;
+
+  border-radius: 10px;
+
+  background: var(--surface-sunken);
+
+  color: var(--ink-soft);
+
+  font-size: 12px;
+}
+
+.dentist-experience-value {
+  font-family: var(--font-display);
+
+  font-size: 19px;
+  font-weight: 600;
+
+  color: var(--primary-dark);
+}
+
+/* =========================
+   BIO
+========================= */
+
+.dentist-bio {
+  margin: 0;
+
+  color: var(--ink-soft);
+
+  font-size: 13px;
+  line-height: 1.65;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+.dentist-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 8px;
+
+  margin-top: auto;
+  padding-top: 20px;
+
+  border-top: 1px solid var(--border);
+}
+
+.dentist-actions .btn {
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+
+  .dentists-intro {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dentists-count {
+    align-self: flex-start;
+  }
+
+  .dentist-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dentist-specialty-filter {
+    width: 100%;
+  }
+
+}
+
+/* =========================================================
+   PROFILE PAGE
+========================================================= */
+
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+
+/* =========================================================
+   PROFILE HERO
+========================================================= */
+
+.profile-hero {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 28px;
+}
+
+.profile-avatar {
+  width: 82px;
+  height: 82px;
+  flex: 0 0 82px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 22px;
+
+  background: var(--surface-sunken);
+  color: var(--primary);
+
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+
+  overflow: hidden;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-hero-info {
+  min-width: 0;
+}
+
+.profile-hero-info h2 {
+  margin: 4px 0 8px;
+
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 700;
+
+  color: var(--ink);
+}
+
+.profile-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  color: var(--ink-soft);
+}
+
+.profile-status-dot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #35a66f;
+}
+
+
+/* =========================================================
+   PROFILE SECTIONS
+========================================================= */
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-section-header h3 {
+  margin: 3px 0 0;
+
+  font-size: 19px;
+  font-weight: 650;
+
+  color: var(--ink);
+}
+
+
+/* =========================================================
+   CONTACT CARD
+========================================================= */
+
+.profile-info-card {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+
+  padding: 0;
+  overflow: hidden;
+}
+
+.profile-info-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 22px 24px;
+}
+
+.profile-info-item + .profile-info-item {
+  border-left: 1px solid var(--surface-sunken);
+}
+
+.profile-info-icon {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: var(--surface-sunken);
+  color: var(--primary);
+}
+
+.profile-info-icon svg {
+  width: 20px;
+  height: 20px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.profile-info-item span,
+.profile-detail span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  color: var(--ink-faint);
+}
+
+.profile-info-item strong {
+  display: block;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  color: var(--ink);
+}
+
+
+/* =========================================================
+   PERSONAL DETAILS
+========================================================= */
+
+.profile-details-card {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  padding: 0;
+  overflow: hidden;
+}
+
+.profile-detail {
+  padding: 20px 24px;
+
+  border-bottom: 1px solid var(--surface-sunken);
+}
+
+.profile-detail:nth-child(odd) {
+  border-right: 1px solid var(--surface-sunken);
+}
+
+.profile-detail:nth-last-child(-n + 2) {
+  border-bottom: none;
+}
+
+.profile-detail strong {
+  display: block;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  color: var(--ink);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .profile-hero {
+    padding: 22px;
+  }
+
+  .profile-hero-info h2 {
+    font-size: 23px;
+  }
+
+  .profile-info-card,
+  .profile-details-card {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-info-item + .profile-info-item {
+    border-left: none;
+    border-top: 1px solid var(--surface-sunken);
+  }
+
+  .profile-detail:nth-child(odd) {
+    border-right: none;
+  }
+
+  .profile-detail:nth-last-child(-n + 2) {
+    border-bottom: 1px solid var(--surface-sunken);
+  }
+
+  .profile-detail:last-child {
+    border-bottom: none;
+  }
+}
+
+/* =========================================================
+   DENTIST PROFILE PAGE
+========================================================= */
+
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* =========================================================
+   PROFILE HERO
+========================================================= */
+
+.profile-hero {
+  padding: 30px;
+}
+
+.profile-hero-main {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.profile-avatar-dentist {
+  width: 92px;
+  height: 92px;
+  min-width: 92px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 24px;
+
+  background: var(--primary);
+  color: #ffffff;
+
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+
+  box-shadow: 0 8px 24px rgba(18, 33, 29, 0.12);
+}
+
+.profile-hero-info {
+  min-width: 0;
+}
+
+.profile-hero-info h2 {
+  margin: 4px 0 6px;
+
+  color: var(--ink);
+
+  font-size: 30px;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+
+.profile-role {
+  margin: 0;
+
+  color: var(--primary);
+
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.profile-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+
+  margin-top: 16px;
+}
+
+.profile-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  color: var(--ink-soft);
+
+  font-size: 14px;
+}
+
+.profile-meta svg {
+  width: 17px;
+  height: 17px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* =========================================================
+   PROFILE SECTION HEADER
+========================================================= */
+
+.profile-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-section-header h3 {
+  margin: 4px 0 0;
+
+  color: var(--ink);
+}
+
+/* =========================================================
+   PROFILE INFORMATION CARDS
+========================================================= */
+
+.profile-info-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  padding: 22px;
+}
+
+.profile-info-icon {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: var(--surface-sunken);
+  color: var(--primary);
+}
+
+.profile-info-icon svg {
+  width: 22px;
+  height: 22px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.profile-info-card > div:last-child {
+  min-width: 0;
+}
+
+.profile-info-label {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: var(--ink-faint);
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.profile-info-card strong {
+  display: block;
+
+  color: var(--ink);
+
+  font-size: 16px;
+  font-weight: 650;
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   BIOGRAPHY
+========================================================= */
+
+.profile-bio-card {
+  padding: 26px;
+}
+
+.profile-bio-header {
+  margin-bottom: 18px;
+}
+
+.profile-bio-text {
+  max-width: 850px;
+
+  margin: 0;
+
+  color: var(--ink-soft);
+
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .profile-hero {
+    padding: 22px;
+  }
+
+  .profile-hero-main {
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .profile-avatar-dentist {
+    width: 72px;
+    height: 72px;
+    min-width: 72px;
+
+    border-radius: 18px;
+
+    font-size: 22px;
+  }
+
+  .profile-hero-info h2 {
+    font-size: 24px;
+  }
+
+  .profile-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+}
+
+/* =========================================================
+   DENTIST DASHBOARD
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   GENERAL
+   --------------------------------------------------------- */
+
+.section-description {
+  margin: 6px 0 0;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.section-count {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--surface-sunken);
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.btn svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/* =========================================================
+   DASHBOARD SUMMARY
+   ========================================================= */
+
+.dashboard-summary {
+  display: flex;
+  align-items: center;
+  margin-top: 18px;
+  padding: 18px 22px;
+  border: 1px solid #e4e9e6;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.dashboard-summary-item {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.dashboard-summary-item span {
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
+.dashboard-summary-item strong {
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.dashboard-summary-divider {
+  width: 1px;
+  height: 28px;
+  margin: 0 24px;
+  background: #e5e9e7;
+}
+
+
+/* =========================================================
+   APPOINTMENTS
+   ========================================================= */
+
+.appointments-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.appointment-list {
+  width: 100%;
+}
+
+.appointment-row {
+  display: grid;
+  grid-template-columns: 145px minmax(190px, 1fr) minmax(150px, 1fr) 120px 150px;
+  align-items: center;
+  gap: 22px;
+  min-height: 82px;
+  padding: 15px 20px;
+  border-bottom: 1px solid #edf0ee;
+  background: #ffffff;
+}
+
+.appointment-row:last-child {
+  border-bottom: none;
+}
+
+.appointment-row:hover {
+  background: #fafcfb;
+}
+
+.appointment-date {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.appointment-date-day {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.appointment-time {
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
+.appointment-patient {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.appointment-patient > div:last-child {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 3px;
+}
+
+.appointment-patient strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.appointment-patient span {
+  color: var(--ink-faint);
+  font-size: 12px;
+}
+
+.appointment-avatar {
+  flex-shrink: 0;
+}
+
+.appointment-treatment {
+  min-width: 0;
+}
+
+.appointment-treatment strong {
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.appointment-status {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 100px;
+}
+
+
+.appointment-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  min-width: max-content;
+}
+
+
+/* =========================================================
+   PATIENTS
+   ========================================================= */
+
+.patients-page {
+  width: 100%;
+}
+
+.patients-count,
+.schedule-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: var(--surface-sunken);
+}
+
+.patients-count strong,
+.schedule-count strong {
+  color: var(--ink);
+  font-size: 18px;
+}
+
+.patients-count span,
+.schedule-count span {
+  color: var(--ink-soft);
+  font-size: 12px;
+}
+
+.patients-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.patient-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 22px;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.patient-card:hover {
+  transform: translateY(-2px);
+  border-color: #dce3df;
+  box-shadow: 0 8px 24px rgba(18, 33, 29, 0.06);
+}
+
+.patient-card-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.patient-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  background: #e9efec;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.patient-card-identity {
+  min-width: 0;
+}
+
+.patient-card-identity h3 {
+  margin: 0 0 5px;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.patient-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #5f6f68;
+  font-size: 12px;
+}
+
+.patient-status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #43a56f;
+}
+
+.patient-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #edf0ee;
+}
+
+.patient-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.patient-detail span {
+  color: var(--ink-faint);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.patient-detail strong {
+  overflow: hidden;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.patient-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.patient-message-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+
+/* =========================================================
+   SCHEDULE
+   ========================================================= */
+
+.schedule-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.schedule-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 22px;
+  border-bottom: 1px solid #e9eeeb;
+}
+
+.schedule-card-header > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.schedule-card-header strong {
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.schedule-card-header span {
+  color: var(--ink-faint);
+  font-size: 12px;
+}
+
+.schedule-header-status {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #eef7f1;
+  color: #4f755e !important;
+  font-size: 12px !important;
+  font-weight: 600;
+}
+
+.schedule-header-status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4aa36c;
+}
+
+.schedule-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.schedule-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 130px;
+  align-items: center;
+  gap: 25px;
+  min-height: 76px;
+  padding: 13px 22px;
+  border-bottom: 1px solid #edf0ee;
+  transition: background 0.15s ease;
+}
+
+.schedule-row:last-child {
+  border-bottom: none;
+}
+
+.schedule-row:hover {
+  background: #fafcfb;
+}
+
+.schedule-day {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.schedule-day-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 11px;
+  background: #f0f4f2;
+}
+
+.schedule-day-icon svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: var(--ink-soft);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.schedule-day > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.schedule-day strong {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.schedule-day span {
+  color: var(--ink-faint);
+  font-size: 12px;
+}
+
+.schedule-time {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.schedule-time-label {
+  color: var(--ink-faint);
+  font-size: 11px;
+}
+
+.schedule-time strong {
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.schedule-status {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.schedule-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #4f755e;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.schedule-active i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #43a56f;
+}
+
+
+/* =========================================================
+   MESSAGES
+   ========================================================= */
+
+.messages-page {
+  width: 100%;
+}
+
+.chat-card {
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
+  height: 650px;
+  min-height: 650px;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* LEFT */
+
+.chat-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-right: 1px solid #e5e9e7;
+  background: #fbfcfb;
+}
+
+.chat-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 18px;
+  border-bottom: 1px solid #e9eeeb;
+}
+
+.chat-sidebar-header > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chat-sidebar-header strong {
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.chat-sidebar-header span {
+  color: var(--ink-faint);
+  font-size: 12px;
+}
+
+.chat-patient-list {
+  flex: 1;
+  min-height: 0;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.chat-patient {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 11px;
+  margin-bottom: 4px;
+  padding: 11px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.chat-patient:hover {
+  background: #f1f5f3;
+}
+
+.chat-patient-active {
+  border-color: #dce7e1;
+  background: #eef4f1;
+}
+
+.chat-avatar {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  font-size: 12px;
+}
+
+.chat-patient-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 3px;
+}
+
+.chat-patient-info strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chat-patient-info span {
+  overflow: hidden;
+  color: var(--ink-faint);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* RIGHT */
+
+.chat-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: #ffffff;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 72px;
+  padding: 14px 20px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #e9eeeb;
+}
+
+.chat-header-avatar {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+}
+
+.chat-header-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 3px;
+}
+
+.chat-header-info strong {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.chat-header-info span {
+  color: var(--ink-faint);
+  font-size: 12px;
+}
+
+.chat-online {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  color: #5f7468;
+  font-size: 12px;
+}
+
+.chat-online i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #43a56f;
+}
+
+/* MESSAGE SCROLL */
+
+.chat-messages {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  gap: 8px;
+  padding: 22px;
+  overflow-y: auto;
+  background: #fcfdfc;
+}
+
+/* EMPTY */
+
+.chat-empty {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.chat-empty-icon,
+.chat-no-messages-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 15px;
+  border-radius: 16px;
+  background: #eef3f0;
+}
+
+.chat-empty-icon svg,
+.chat-no-messages-icon svg {
+  width: 25px;
+  height: 25px;
+  fill: none;
+  stroke: #65756e;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chat-empty h4,
+.chat-no-messages h4 {
+  margin: 0 0 6px;
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.chat-empty p,
+.chat-no-messages p {
+  max-width: 300px;
+  margin: 0;
+  color: var(--ink-faint);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.chat-no-messages {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* LOADING */
+
+.chat-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  color: var(--ink-faint);
+  font-size: 13px;
+}
+
+.chat-loading-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #9aa8a1;
+}
+
+/* MESSAGE ROW */
+
+.message-row {
+  display: flex;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.message-row-mine {
+  justify-content: flex-end;
+}
+
+.message-row-theirs {
+  justify-content: flex-start;
+}
+
+.message-bubble {
+  max-width: min(70%, 620px);
+  padding: 11px 14px 8px;
+  border-radius: 16px;
+  word-break: break-word;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.message-bubble-mine {
+  background: #2563eb;
+  color: #ffffff;
+  border-bottom-right-radius: 5px;
+}
+
+.message-bubble-theirs {
+  background: #f0f2f1;
+  color: var(--ink);
+  border: 1px solid #e2e7e4;
+  border-bottom-left-radius: 5px;
+}
+
+.message-content {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.message-time {
+  margin-top: 5px;
+  font-size: 10px;
+  line-height: 1.2;
+  opacity: 0.65;
+  text-align: right;
+}
+
+.message-bubble-theirs .message-time {
+  color: #66736d;
+}
+
+/* COMPOSER */
+
+.chat-composer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  flex-shrink: 0;
+  border-top: 1px solid #e5e9e7;
+  background: #ffffff;
+}
+
+.chat-input {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid #d8dfdc;
+  border-radius: 12px;
+  outline: none;
+  background: #f8faf9;
+  color: var(--ink);
+  font-size: 14px;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.chat-input::placeholder {
+  color: #8a9791;
+}
+
+.chat-input:focus {
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+.chat-input:disabled {
+  opacity: 0.65;
+}
+
+.chat-send-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 44px;
+  padding: 0 18px;
+  flex-shrink: 0;
+  border-radius: 12px;
+}
+
+.chat-send-button svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/* =========================================================
+   DENTIST PROFILE
+   ========================================================= */
+
+.dentist-profile-card {
+  overflow: hidden;
+  padding: 0;
+}
+
+.dentist-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 28px;
+  border-bottom: 1px solid #e9eeeb;
+  background: linear-gradient(
+    135deg,
+    #fbfdfc,
+    #f3f7f5
+  );
+}
+
+.dentist-profile-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+  border: 1px solid #dbe4df;
+  border-radius: 20px;
+  background: #e7eeea;
+  color: var(--ink);
+  font-size: 23px;
+  font-weight: 750;
+}
+
+.dentist-profile-identity {
+  min-width: 0;
+}
+
+.dentist-profile-role {
+  margin: 0 0 5px;
+  color: var(--ink-faint);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.dentist-profile-identity h2 {
+  margin: 0 0 5px;
+  color: var(--ink);
+  font-size: 23px;
+  line-height: 1.2;
+}
+
+.dentist-profile-identity > span {
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+.dentist-profile-section {
+  padding: 25px 28px;
+  border-bottom: 1px solid #edf0ee;
+}
+
+.dentist-profile-section:last-child {
+  border-bottom: none;
+}
+
+.dentist-profile-section-title {
+  margin-bottom: 17px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.dentist-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.dentist-profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dentist-profile-field span {
+  color: var(--ink-faint);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dentist-profile-field strong {
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.dentist-profile-bio {
+  max-width: 800px;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+  .appointment-row {
+    grid-template-columns:
+      1fr
+      1fr
+      1fr;
+    gap: 12px;
+    padding: 18px;
+  }
+
+  .appointment-actions {
+    justify-content: flex-start;
+  }
+
+  .appointment-status {
+    justify-content: flex-start;
+  }
+
+  .patients-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .schedule-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .schedule-status {
+    justify-content: flex-start;
+  }
+
+}
+
+
+@media (max-width: 800px) {
+
+  .chat-card {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 650px;
+  }
+
+  .chat-sidebar {
+    max-height: 230px;
+    border-right: none;
+    border-bottom: 1px solid #e5e9e7;
+  }
+
+  .chat-main {
+    min-height: 500px;
+  }
+
+  .dashboard-summary {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .dashboard-summary-divider {
+    width: 100%;
+    height: 1px;
+    margin: 0;
+  }
+
+  .dentist-profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .appointment-row {
+    grid-template-columns: 1fr;
+  }
+
+  .schedule-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .schedule-status {
+    justify-content: flex-start;
+  }
+
+  .patient-details {
+    grid-template-columns: 1fr;
+  }
+
+  .dentist-profile-header {
+    align-items: flex-start;
+    padding: 22px;
+  }
+
+  .dentist-profile-avatar {
+    width: 62px;
+    height: 62px;
+  }
+
+  .dentist-profile-identity h2 {
+    font-size: 19px;
+  }
+
+  .chat-composer {
+    padding: 10px;
+  }
+
+  .chat-send-button {
+    width: 44px;
+    padding: 0;
+  }
+
+  .chat-send-button span {
+    display: none;
+  }
+
+}
+
+
+.dashboard-action-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.dashboard-action-card strong {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.dashboard-action-card span {
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
+.dashboard-action-card:hover {
+  transform: translateY(-2px);
+}
+
+.topbar-notification-wrapper {
+  position: relative;
+}
+
+.notifications-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 380px;
+  background: var(--surface);
+  border: 1px solid rgba(18, 33, 29, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 18px 45px rgba(18, 33, 29, 0.14);
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.notifications-header {
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(18, 33, 29, 0.07);
+}
+
+.notifications-header strong {
+  display: block;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.notifications-header span {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink-faint);
+  font-size: 12px;
+}
+
+.notifications-list {
+  max-height: 390px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 0;
+  border-bottom: 1px solid rgba(18, 33, 29, 0.06);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.notification-item:hover {
+  background: var(--surface-sunken);
+}
+
+.notification-item.is-unread {
+  background: rgba(18, 33, 29, 0.025);
+}
+
+.notification-item.is-read {
+  opacity: 0.65;
+}
+
+.notification-item-icon {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--surface-sunken);
+}
+
+.notification-item-icon svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: var(--ink-soft);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.notification-item-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.notification-message {
+  display: block;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.notification-date {
+  display: block;
+  margin-top: 5px;
+  color: var(--ink-faint);
+  font-size: 11px;
+}
+
+.notification-unread-dot {
+  width: 7px;
+  height: 7px;
+  min-width: 7px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.notifications-empty {
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  color: var(--ink-faint);
+  font-size: 13px;
+}
+
+.notifications-empty svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

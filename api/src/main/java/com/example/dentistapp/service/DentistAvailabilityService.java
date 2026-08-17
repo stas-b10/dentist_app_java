@@ -2,8 +2,10 @@ package com.example.dentistapp.service;
 
 import com.example.dentistapp.dto.DentistAvailabilityRequest;
 import com.example.dentistapp.dto.DentistAvailabilityResponse;
+
 import com.example.dentistapp.model.Dentist;
 import com.example.dentistapp.model.DentistAvailability;
+
 import com.example.dentistapp.repository.DentistAvailabilityRepository;
 import com.example.dentistapp.repository.DentistRepository;
 
@@ -28,23 +30,47 @@ public class DentistAvailabilityService {
     ) {
 
         Dentist dentist =
-                dentistRepository.findById(dentistId)
+                dentistRepository
+                        .findById(dentistId)
                         .orElseThrow(() ->
                                 new RuntimeException(
                                         "Dentist not found"
                                 )
                         );
 
+
+        if (request.getDayOfWeek() == null) {
+            throw new RuntimeException(
+                    "Day of week is required"
+            );
+        }
+
+
+        if (request.getStartTime() == null) {
+            throw new RuntimeException(
+                    "Start time is required"
+            );
+        }
+
+
+        if (request.getEndTime() == null) {
+            throw new RuntimeException(
+                    "End time is required"
+            );
+        }
+
+
         if (request.getStartTime()
                 .isAfter(request.getEndTime())
                 ||
-            request.getStartTime()
-                .equals(request.getEndTime())) {
+                request.getStartTime()
+                        .equals(request.getEndTime())) {
 
             throw new RuntimeException(
                     "Start time must be before end time"
             );
         }
+
 
         if (availabilityRepository
                 .findByDentistAndDayOfWeek(
@@ -58,15 +84,26 @@ public class DentistAvailabilityService {
             );
         }
 
+
         DentistAvailability availability =
                 DentistAvailability.builder()
                         .dentist(dentist)
-                        .dayOfWeek(request.getDayOfWeek())
-                        .startTime(request.getStartTime())
-                        .endTime(request.getEndTime())
+                        .dayOfWeek(
+                                request.getDayOfWeek()
+                        )
+                        .startTime(
+                                request.getStartTime()
+                        )
+                        .endTime(
+                                request.getEndTime()
+                        )
                         .build();
 
-        availabilityRepository.save(availability);
+
+        availabilityRepository.save(
+                availability
+        );
+
 
         return map(availability);
     }
@@ -77,12 +114,14 @@ public class DentistAvailabilityService {
     ) {
 
         Dentist dentist =
-                dentistRepository.findById(dentistId)
+                dentistRepository
+                        .findById(dentistId)
                         .orElseThrow(() ->
                                 new RuntimeException(
                                         "Dentist not found"
                                 )
                         );
+
 
         return availabilityRepository
                 .findByDentist(dentist)
@@ -98,9 +137,15 @@ public class DentistAvailabilityService {
 
         return DentistAvailabilityResponse.builder()
                 .id(availability.getId())
-                .dayOfWeek(availability.getDayOfWeek())
-                .startTime(availability.getStartTime())
-                .endTime(availability.getEndTime())
+                .dayOfWeek(
+                        availability.getDayOfWeek()
+                )
+                .startTime(
+                        availability.getStartTime()
+                )
+                .endTime(
+                        availability.getEndTime()
+                )
                 .build();
     }
 }

@@ -29,6 +29,11 @@ public interface AppointmentRepository
             Long dentistId
     );
 
+    Optional<Appointment> findByIdAndClientId(
+            Long appointmentId,
+            Long clientId
+    );
+
     List<Appointment> findByDentistIdAndAppointmentDateOrderByStartTime(
             Long dentistId,
             LocalDate date

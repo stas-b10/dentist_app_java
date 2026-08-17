@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/treatments")
+@RequestMapping("/api/treatments")
 @RequiredArgsConstructor
 public class TreatmentController {
 
@@ -21,13 +21,11 @@ public class TreatmentController {
     public TreatmentResponse create(
             @RequestBody TreatmentRequest request
     ) {
-
         return treatmentService.create(request);
     }
 
     @GetMapping
     public List<TreatmentResponse> getAll() {
-
         return treatmentService.getAll();
     }
 
@@ -35,7 +33,6 @@ public class TreatmentController {
     public TreatmentResponse getById(
             @PathVariable Long id
     ) {
-
         return treatmentService.getById(id);
     }
 
@@ -44,7 +41,6 @@ public class TreatmentController {
             @PathVariable Long id,
             @RequestBody TreatmentRequest request
     ) {
-
         return treatmentService.update(id, request);
     }
 
@@ -52,7 +48,6 @@ public class TreatmentController {
     public void delete(
             @PathVariable Long id
     ) {
-
         treatmentService.delete(id);
     }
 }

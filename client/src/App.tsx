@@ -1,27 +1,69 @@
-import './App.css'
+import { useAuth } from './components/context/AuthContext';
 
-function App() {
+import Login from './components/Auth/Login';
+
+import ClientDashboard from './pages/ClientDashboard';
+import DentistDashboard from './pages/DentistDashboard';
+
+export default function App() {
+  const {
+    session,
+    loading,
+  } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!session) {
+    return <Login />;
+  }
+
+  if (
+    session.user &&
+    session.user.role === 'CLIENT' &&
+    session.client
+  ) {
+    return (
+      <ClientDashboard
+        client={session.client}
+      />
+    );
+  }
+
+  if (
+    session.user &&
+    session.user.role === 'DENTIST' &&
+    session.dentist
+  ) {
+    return (
+      <DentistDashboard
+        dentist={session.dentist}
+      />
+    );
+  }
+
   return (
-    <main className="app-shell">
-      <section className="hero">
-        <div className="hero-copy">
-          <p className="eyebrow">Dentist App</p>
-          <h1>Modern care for every patient visit</h1>
-          <p>
-            Manage appointments, treatment notes, and follow-up reminders from one calm workspace.
-          </p>
-          <div className="actions">
-            <a className="primary" href="/appointments">
-              View appointments
-            </a>
-            <a className="secondary" href="/records">
-              Patient records
-            </a>
-          </div>
-        </div>
-      </section>
-    </main>
-  )
-}
+    <div className="auth-screen">
+      <div className="auth-panel">
+        <p className="eyebrow">
+          Account
+        </p>
 
-export default App
+        <h1>No profile found</h1>
+
+        <p className="auth-sub">
+          Your account exists, but the corresponding
+          {session.user?.role === 'CLIENT'
+            ? ' client'
+            : ' dentist'}{' '}
+          profile could not be found.
+        </p>
+      </div>
+    </div>
+  );
+}
